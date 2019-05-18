@@ -29,28 +29,49 @@ def main(args):
 	# args[1] function to call
 	# args[2] file to use
 	
+	functCall = args[1]
 	csvFile = args[2] # do I need to check to see if file first? probably
 	
+	marketArray = readMarketExport(csvFile)
+	
+	if functCall == "--total-buy-sell":
+		totalBuySellOrders(marketArray)
 	
 	return 0
 
-def readMarketExport(csvfile):
+def readMarketExport(csvfile_name):
+	
+	marketArray = list()
+	lineCount = 0
+	
 	with open(csvfile_name, mode='r') as csv_file:
-		csv_reader = csv.DictReader(csv_file, delimiter=',') #comma is standard with EVE export
-	
-	
+		# csv_reader = csv.DictReader(csv_file, delimiter=',') #comma is standard with EVE export
+		csv_reader = csv.reader(csv_file, delimiter=',') #comma is standard with EVE export
+		
+		for line in csv_reader:
+			marketArray.append(line)
+				
 	return marketArray
 	
 def totalBuySellOrders(marketArr):
 	
 	totalBuy = 0
 	totalSell = 0
+	lineCount = 0
 	
-	for line in marketArry:
-		if line[0] is "price":
-			# do nothing
-		else:
-			
+	for line in marketArr:
+		if line[0] != "price":
+			if line[7] == "False":
+				totalBuy += 1
+			elif line[7] == "True":
+				totalSell += 1
+			else:
+				print("Error on Line " + str(lineCount) + ": " + str(line[7]))
+
+		lineCount += 1
+
+	print("Total Buy Orders: " + str(totalBuy))
+	print("Total Sell Orders: " + str(totalSell))
 	
 	return 0
 
