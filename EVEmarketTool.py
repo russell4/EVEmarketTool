@@ -63,11 +63,11 @@ def totalBuySellOrders(marketArr):
 	
 	for line in marketArr:
 		if line[0] != "price":
-			if line[7] == "False":
+			if line[7] == "True":
 				totalBuy += 1
 				if float(line[1]) > 0:
 					totalBuyVol += int(float(line[1]))
-			elif line[7] == "True":
+			elif line[7] == "False":
 				totalSell += 1
 				if float(line[1]) > 0:
 					totalSellVol += int(float(line[1]))
@@ -78,8 +78,12 @@ def totalBuySellOrders(marketArr):
 
 	print("Total Buy Orders: " + str(totalBuy))
 	print("Total Sell Orders: " + str(totalSell))
-	print("Total Buy Volume: " + str(totalBuyVol))
-	print("Total Sell Volume: " + str(totalSellVol))
+	
+	strBuyVol = '{:,}'.format(totalBuyVol)
+	strSellVol = '{:,}'.format(totalSellVol)
+	
+	print("Total Buy Volume: " + strBuyVol)
+	print("Total Sell Volume: " + strSellVol)
 	return 0
 
 if __name__ == '__main__':
